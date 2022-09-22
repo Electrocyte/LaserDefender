@@ -1,23 +1,31 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Shooter : MonoBehaviour
 {
+    [Header("General")]
     [SerializeField] GameObject projectilePrefab;
     [SerializeField] float projectileSpeed = 10f;
     [SerializeField] float projectileLifetime = 5f;
-    [SerializeField] float firingRate = 0.2f;
+    [SerializeField] float baseFiringRate = 0.2f;
+    
+    [Header("AI")]
+    [SerializeField] bool useAI;
+    [SerializeField] float varFiringRate = 0f;
+    [SerializeField] float minFiringRate = 0.1f;
 
-    public bool isFiring; 
+    [HideInInspector] public bool isFiring; 
 
     Coroutine firingCoroutine;
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (useAI)
+        {
+            isFiring = true;
+        }
     }
 
     // Update is called once per frame
@@ -47,7 +55,12 @@ public class Shooter : MonoBehaviour
             }
 
             Destroy(instance, projectileLifetime);
-            yield return new WaitForSeconds(firingRate);
+            
+            float timeToNextProj = Random.Range(baseFiringRate - varFiringRate, 
+                                            baseFiringRate + varFiringRate);
+            timeToNextProj = Mathf.Clamp(timeToNextProj, minFiringRate, float.MaxValue);
+
+            yield return new WaitForSeconds(timeToNextProj);
         }
     }
 }
