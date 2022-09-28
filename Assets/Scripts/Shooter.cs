@@ -18,6 +18,11 @@ public class Shooter : MonoBehaviour
     [HideInInspector] public bool isFiring; 
 
     Coroutine firingCoroutine;
+    AudioPlayer audioPlayer;
+
+    void Awake() {
+        audioPlayer = FindObjectOfType<AudioPlayer>();
+    }
     
     // Start is called before the first frame update
     void Start()
@@ -59,6 +64,8 @@ public class Shooter : MonoBehaviour
             float timeToNextProj = Random.Range(baseFiringRate - varFiringRate, 
                                             baseFiringRate + varFiringRate);
             timeToNextProj = Mathf.Clamp(timeToNextProj, minFiringRate, float.MaxValue);
+
+            audioPlayer.PlayShootingClip();
 
             yield return new WaitForSeconds(timeToNextProj);
         }
