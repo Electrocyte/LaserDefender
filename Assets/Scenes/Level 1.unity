@@ -1094,6 +1094,14 @@ PrefabInstance:
       propertyPath: applyCameraShake
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -1376822484106049100, guid: 13ad7a08c7cbfd14681db3f78bebd60d, type: 3}
+      propertyPath: moveSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -1376822484106049100, guid: 13ad7a08c7cbfd14681db3f78bebd60d, type: 3}
+      propertyPath: paddingTop
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 318559489526554921, guid: 13ad7a08c7cbfd14681db3f78bebd60d, type: 3}
       propertyPath: m_RootOrder
       value: 1
