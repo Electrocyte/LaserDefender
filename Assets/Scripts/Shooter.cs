@@ -14,6 +14,7 @@ public class Shooter : MonoBehaviour
     [SerializeField] bool useAI;
     [SerializeField] float varFiringRate = 0f;
     [SerializeField] float minFiringRate = 0.1f;
+    [SerializeField] Vector3 offsetFiring = new Vector3(0f,0f,0f);
 
     [HideInInspector] public bool isFiring; 
 
@@ -53,14 +54,16 @@ public class Shooter : MonoBehaviour
     {
         while (true)
         {
-            GameObject instance = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-            Rigidbody2D rb2d = instance.GetComponent<Rigidbody2D>();
-            if (rb2d != null) {
-                rb2d.velocity = transform.up * projectileSpeed;
+            if (offsetFiring == new Vector3(0f,0f,0f))
+            {
+                GameObject instance = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+                ProjectileSpeed(instance);
+            }
+            else {
+                GameObject instance = Instantiate(projectilePrefab, transform.position + offsetFiring, Quaternion.identity);
+                ProjectileSpeed(instance);
             }
 
-            Destroy(instance, projectileLifetime);
-            
             float timeToNextProj = Random.Range(baseFiringRate - varFiringRate, 
                                             baseFiringRate + varFiringRate);
             timeToNextProj = Mathf.Clamp(timeToNextProj, minFiringRate, float.MaxValue);
@@ -69,5 +72,16 @@ public class Shooter : MonoBehaviour
 
             yield return new WaitForSeconds(timeToNextProj);
         }
+    }
+
+    private void ProjectileSpeed(GameObject instance)
+    {
+        Rigidbody2D rb2d = instance.GetComponent<Rigidbody2D>();
+        if (rb2d != null)
+        {
+            rb2d.velocity = transform.up * projectileSpeed;
+        }
+
+        Destroy(instance, projectileLifetime);
     }
 }
